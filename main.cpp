@@ -9,7 +9,13 @@ int main()
  string majorColor, userResponse, repeat;
  fstream reader;
 
- cout<<"\nPlease open up the potential colors folder and pick from those colors to answer the following questions\n\n";
+
+ cout<<("What is your name\n");
+ cin>>userResponse;
+ reader.open("UserFile", ios::out );
+ reader<<(userResponse)<<" ";
+ reader.close();
+ cout<<("\nPlease open up the potential colors folder and pick from those colors to answer the following questions\n\n");
 
 do{
  do{
@@ -48,7 +54,7 @@ do{
  if (userResponse=="yes")
  {
    reader.open("UserFile", ios::app );
-   reader<<("User has trouble with color with values\n Red: ");
+   reader<<("has trouble with color with values\n Red: ");
    reader<<red;
    reader<<"\n Green: ";
    reader<<green;
@@ -59,7 +65,7 @@ do{
  else
  {
    reader.open("UserFile", ios::app );
-   reader<<("User doesn't have trouble with color with values\n Red: ");
+   reader<<(" doesn't have trouble with color with values\n Red: ");
    reader<<red;
    reader<<"\n Green: ";
    reader<<green;
