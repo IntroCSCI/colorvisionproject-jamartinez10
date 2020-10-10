@@ -20,6 +20,9 @@ g++ --std=c++11 main.cpp -o cvp
 Here is an example of the program running:
 
 ```
+What is your name
+Jessica
+
 Please open up the potential color folder and pick from those colors to answer the following questions
 
 Enter a Red value between 0 to 255
