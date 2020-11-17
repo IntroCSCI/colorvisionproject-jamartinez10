@@ -6,80 +6,134 @@ using namespace std;
 int main()
 {
  int red, green, blue;
- string majorColor, userResponse, repeat;
+ string majorColor, userResponse, repeat, mostProblematicColor;
  fstream reader;
+ void getColors (int&, int&, int&);
+ void getMajorColor(int, int, int, string&);
+ string findMostProblematic(vector <string>);
+ vector <string> problematicColors; 
 
 
  cout<<("What is your name\n");
  cin>>userResponse;
  reader.open("UserFile", ios::out );
- reader<<(userResponse)<<" ";
+ if (reader.is_open())
+  reader<< userResponse <<" ";
  reader.close();
- cout<<("\nPlease open up the potential colors folder and pick from those colors to answer the following questions\n\n");
-
-do{
- do{
-   cout<<"Enter a Red value between 0 to 255\n";
-   cin>>red;
- }while(red<0 || red>255);
- do{
-   cout<<"Enter a Green value between 0 to 255\n";
-   cin>>green;
- }while(green<0 || green>255);
- do{
-   cout<<"Enter a Blue value between 0 to 255\n";
-   cin>>blue;
- }while(blue<0 || blue>255);
-
- if(red>green)
- {
-   majorColor= "red"; 
- }
- else if (green>blue)
- {
-   majorColor= "green";
- }
- else
- {
-   majorColor= "blue";
- }
- cout<<"\nThis color is primarily "<<majorColor<<" if you see a different color then you might have trouble with it."<<endl;
-
+ cout<<("\nPlease enter the rgb values for your color\n\n");
 
  do{
-   cout<<"Do you have trouble looking at this color?\n";
-   cin>>userResponse;
- }while (userResponse!="yes" && userResponse!="no");
+   getColors(red, green, blue);
+   getMajorColor(red, green, blue, majorColor);
+    cout<<"\nThis color is primarily "<<majorColor<<" if you see a different color then you might have trouble with it."<<endl;
+    do{
+     cout<<"Do you have trouble looking at this color?\n";
+     cin>>userResponse;
+    }while (userResponse!="yes" && userResponse!="no");
+
  
- if (userResponse=="yes")
- {
+ if (userResponse=="yes"){
    reader.open("UserFile", ios::app );
-   reader<<("has trouble with color with values\n Red: ");
-   reader<<red;
-   reader<<"\n Green: ";
-   reader<<green;
-   reader<<"\n Blue: ";
-   reader<<blue<<endl;
-   reader.close();
+   if(reader.is_open()){
+    reader<<("has trouble with color with values\n Red: ");
+    reader<<red;
+    reader<<"\n Green: ";
+    reader<<green;
+    reader<<"\n Blue: ";
+    reader<<blue<<endl;
+    reader.close();
+   }
+   problematicColors.push_back(majorColor);
  }
- else
- {
+ else{
    reader.open("UserFile", ios::app );
-   reader<<(" doesn't have trouble with color with values\n Red: ");
-   reader<<red;
-   reader<<"\n Green: ";
-   reader<<green;
-   reader<<"\n Blue: ";
-   reader<<blue<<endl<<endl;
-   reader.close();
+   if(reader.is_open()){
+    reader<<("doesn't have trouble with color with values\n Red: ");
+    reader<<red;
+    reader<<"\n Green: ";
+    reader<<green;
+    reader<<"\n Blue: ";
+    reader<<blue<<endl;
+    reader.close();
+   }
  }
- 
-   cout<<"\nDo you want to enter another color?\n";
-   cin>>repeat;
- 
- 
+ cout<<"\nDo you want to enter another color?\n";
+ cin>>repeat;
 }while(repeat=="yes");
 
- return 0;
+mostProblematicColor=findMostProblematic(problematicColors);
+cout<<"The user tends to have more trouble with colors that contain more "<<mostProblematicColor<<endl; 
 
+
+if(mostProblematicColor.find("red")!= -1)
+ cout<<"Open the second picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily red then you for sure struggle with red colors"<<endl;
+if(mostProblematicColor.find("green")!= -1)
+ cout<<"Open the first picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily green then you for sure struggle with green colors"<<endl;
+if(mostProblematicColor.find("blue")!= -1)
+ cout<<"Open the third picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily blue then you for sure struggle with blue colors"<<endl;
+ 
+
+
+ return 0;
+}
+//gets the user input for the rgb values
+void getColors (int & r, int & g, int & b){
+  do{
+   cout<<"Enter a Red value between 0 to 255\n";
+   cin>>r;
+ }while(r<0 || r>255);
+ do{
+   cout<<"Enter a Green value between 0 to 255\n";
+   cin>>g;
+ }while(g<0 || g>255);
+ do{
+   cout<<"Enter a Blue value between 0 to 255\n";
+   cin>>b;
+ }while(b<0 || b>255);
+}
+
+//takes in three values and figures out which one is predominant
+void getMajorColor(int r, int g, int b, string & mainColor){
+if(r>g && r>b)
+ {
+   mainColor= "red"; 
+ }
+ else if (g>b  && g>r)
+ {
+   mainColor= "green";
+ }
+ else if(b>r && b>g)
+ {
+   mainColor= "blue";
+ }
+else if(r==g && g==b)
+ mainColor= "red, green and blue";
+ else if (r==b)
+ mainColor="red and blue";
+ else if (r==g)
+ mainColor="red and green";
+ else if (g==b)
+ mainColor="green and blue";
+
+
+}
+
+// Figure out which color is more problematic
+string findMostProblematic(vector <string> x)
+{
+ string color;
+ int r=0;
+ int g=0;
+ int b=0;
+ for(int i=0; i <x.size(); i++){
+ if(x[i].find("red")!= -1)
+  r++;
+ if(x[i].find("green")!= -1)
+  g++;
+ if(x[i].find("blue")!= -1)
+  b++;
+}
+getMajorColor(r, g, b, color);
+return color;
+ 
 }
