@@ -2,7 +2,7 @@
 using namespace std;
 #include "libraries/bitmap.h"
 #include <fstream>
-#include "color.cpp"
+#include "color.h"
 
 
 int main()
@@ -68,22 +68,33 @@ cout<<"The user tends to have more trouble with colors that contain more "<<most
 
 //outputs specific instructions for the user depending on the data gathered in this program
 if(mostProblematicColor.find("red")!= -1)
- cout<<"Open the second picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily red then you for sure struggle with red colors"<<endl;
+ cout<<"\nOpen the second picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily red then you for sure struggle with red colors"<<endl;
 if(mostProblematicColor.find("green")!= -1)
  cout<<"Open the first picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily green then you for sure struggle with green colors"<<endl;
 if(mostProblematicColor.find("blue")!= -1)
  cout<<"Open the third picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily blue then you for sure struggle with blue colors"<<endl;
 
 
-do{
-  cout<<"If you struggled with a specific color enter the rgb values of that color. Hint: you can look at the file UserFile in order to review what colors you struggled with";
 
+  cout<<"If you struggled with a specific color enter the rgb values of that color. Hint: you can look at the file UserFile in order to review what colors you struggled with"<< endl;
+do{
   getColors(red, green, blue);
-  ran.toHex(red, green, blue);
+
+  cout<<"The value of that color in Hexadecimal is " << ran.toHex(red, green, blue)<<endl;
+
+  cout<< "Do you want to look for this color in a file?"<<endl;
+  cin>>userResponse;
+  if(userResponse=="yes")
+  {
+    cout<<"go into the file \" HexFinder\" and paste whatever file might contain a hexidecimal value\n";
+  }
+
+   ran.findInFile(ran.toHex(red, green, blue));
 
 
   cout<<"\nDo you want to enter another color?\n";
   cin>>repeat;
+
 }while(repeat=="yes");
 
  return 0;

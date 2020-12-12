@@ -12,7 +12,7 @@ class color {
 
  private:
     string fileName;
-    vector <int> hexVals;
+    vector <string> hexVals;
     vector <int> locations;
     int r; 
     int g;
@@ -21,7 +21,7 @@ class color {
   public:
     // constructor for email
     void findInFile(string);
-    void toHex(int, int, int);
+    string toHex(int, int, int);
 
 
  
