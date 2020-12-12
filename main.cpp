@@ -2,6 +2,8 @@
 using namespace std;
 #include "libraries/bitmap.h"
 #include <fstream>
+#include "color.cpp"
+
 
 int main()
 {
@@ -12,7 +14,7 @@ int main()
  void getMajorColor(int, int, int, string&);
  string findMostProblematic(vector <string>);
  vector <string> problematicColors; 
-
+ color ran;
 
  cout<<("What is your name\n");
  cin>>userResponse;
@@ -31,7 +33,7 @@ int main()
      cin>>userResponse;
     }while (userResponse!="yes" && userResponse!="no");
 
- 
+ //the following statements inputs whether the user has trouble with a specific color or not on the file UserFile. 
  if (userResponse=="yes"){
    reader.open("UserFile", ios::app );
    if(reader.is_open()){
@@ -64,18 +66,29 @@ int main()
 mostProblematicColor=findMostProblematic(problematicColors);
 cout<<"The user tends to have more trouble with colors that contain more "<<mostProblematicColor<<endl; 
 
-
+//outputs specific instructions for the user depending on the data gathered in this program
 if(mostProblematicColor.find("red")!= -1)
  cout<<"Open the second picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily red then you for sure struggle with red colors"<<endl;
 if(mostProblematicColor.find("green")!= -1)
  cout<<"Open the first picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily green then you for sure struggle with green colors"<<endl;
 if(mostProblematicColor.find("blue")!= -1)
  cout<<"Open the third picture in the potential colors folder on the left side of your screen, if you don't see a color that is primarily blue then you for sure struggle with blue colors"<<endl;
- 
 
+
+do{
+  cout<<"If you struggled with a specific color enter the rgb values of that color. Hint: you can look at the file UserFile in order to review what colors you struggled with";
+
+  getColors(red, green, blue);
+  ran.toHex(red, green, blue);
+
+
+  cout<<"\nDo you want to enter another color?\n";
+  cin>>repeat;
+}while(repeat=="yes");
 
  return 0;
 }
+
 //gets the user input for the rgb values
 void getColors (int & r, int & g, int & b){
   do{
